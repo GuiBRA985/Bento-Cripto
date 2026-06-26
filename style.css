@@ -1,0 +1,85 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#f8fafc;
+}
+
+.crypto{
+background:#05070d;
+}
+
+.hero{
+padding:60px 20px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.hero h1{
+font-size:3rem;
+letter-spacing:3px;
+}
+
+.hero p{
+opacity:.7;
+margin-top:10px;
+}
+
+#updated{
+display:block;
+margin-top:20px;
+color:#94a3b8;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+padding:30px;
+}
+
+.card{
+background:#111827;
+border-radius:20px;
+padding:25px;
+text-align:center;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.card h3{
+font-size:.9rem;
+color:#94a3b8;
+}
+
+.card .value{
+font-size:2rem;
+margin-top:10px;
+font-weight:bold;
+}
+
+.panel,
+.fear{
+padding:40px 30px;
+}
+
+.news-item{
+background:#111827;
+margin-top:15px;
+padding:20px;
+border-radius:16px;
+}
+
+footer{
+text-align:center;
+padding:40px;
+color:#64748b;
+}
