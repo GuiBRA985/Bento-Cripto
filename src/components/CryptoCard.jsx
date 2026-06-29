@@ -1,1 +1,0 @@
-src/components/CryptoCard.jsx
