@@ -1,0 +1,13 @@
+version: 1
+services:
+  - type: web
+    name: forex-elite
+    env: static
+    buildCommand: echo "Deploying static site - no build required"
+    staticPublishPath: .
+    # Opcional: configurações extras
+    autoDeploy: true
+    pullRequestPreviewsEnabled: false
+    # Se quiser usar um domínio customizado:
+    # domains:
+    #   - seu-dominio.com
