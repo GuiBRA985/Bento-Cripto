@@ -1,13 +1,9 @@
 version: 1
 services:
   - type: web
-    name: forex-elite
+    name: bento-cripto
     env: static
-    buildCommand: echo "Deploying static site - no build required"
+    buildCommand: echo "Deploying Bento Cripto"
     staticPublishPath: .
-    # Opcional: configurações extras
     autoDeploy: true
     pullRequestPreviewsEnabled: false
-    # Se quiser usar um domínio customizado:
-    # domains:
-    #   - seu-dominio.com
