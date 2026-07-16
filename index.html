@@ -41,10 +41,71 @@
 
 <footer>Criptoativos. Questione o sistema, não a lei. · Bento.host</footer>
 <script>
-const API='https://api.binance.com/api/v3',excluded=['BTCUSDT','ETHUSDT','USDCUSDT','FDUSDUSDT','TUSDUSDT','DAIUSDT','EURUSDT','BRLUSDT'];let market=[];const money=n=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:8}),compact=n=>Intl.NumberFormat('pt-BR',{notation:'compact',maximumFractionDigits:1}).format(n),pct=n=>`${n>=0?'+':''}${n.toFixed(2)}%`;async function getJSON(url){const r=await fetch(url);if(!r.ok)throw Error('A Binance não respondeu agora.');return r.json()}function rsi(c,p=14){let g=0,l=0;for(let i=c.length-p;i<c.length;i++){const d=c[i]-c[i-1];d>0?g+=d:l-=d}if(!l)return 100;const rs=(g/p)/(l/p);return 100-100/(1+rs)}async function analyze(pair){const k=await getJSON(`${API}/klines?symbol=${pair.symbol}&interval=15m&limit=64`),c=k.map(x=>+x[4]),h=k.map(x=>+x[2]),lo=k.map(x=>+x[3]),v=k.map(x=>+x[5]),price=c.at(-1),high=Math.max(...h.slice(-24)),low=Math.min(...lo.slice(-24)),position=(price-low)/(high-low||1),R=rsi(c),avg=v.slice(-25,-1).reduce((a,b)=>a+b,0)/24,vr=v.at(-1)/(avg||1),mom4=(price/c.at(-5)-1)*100,mom1=(price/c.at(-2)-1)*100;let direction='AGUARDAR',confidence=45;const longOK=position<.22&&R<38&&mom1>0&&mom4>-1.2&&vr>=1.15,shortOK=position>.78&&R>62&&mom1<0&&mom4<1.2&&vr>=1.15;if(longOK){direction='LONG';confidence=Math.min(88,62+(1-position)*10+(vr-1)*7+(38-R)*.35)}else if(shortOK){direction='SHORT';confidence=Math.min(88,62+position*10+(vr-1)*7+(R-62)*.35)}else confidence=Math.min(65,40+vr*5+Math.abs(mom4)*2);return{...pair,price,position,R,vr,mom4,mom1,direction,confidence}}
+const APIS=['https://api.binance.com/api/v3','https://data-api.binance.vision/api/v3'];let activeAPI=APIS[0],excluded=['BTCUSDT','ETHUSDT','USDCUSDT','FDUSDUSDT','TUSDUSDT','DAIUSDT','EURUSDT','BRLUSDT'];let market=[];const money=n=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:8}),compact=n=>Intl.NumberFormat('pt-BR',{notation:'compact',maximumFractionDigits:1}).format(n),pct=n=>`${n>=0?'+':''}${n.toFixed(2)}%`;async function getJSON(path){
+  let lastError;
+  for(const base of [activeAPI,...APIS.filter(x=>x!==activeAPI)]){
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),10000);
+    try{
+      const r=await fetch(`${base}${path}`,{signal:controller.signal,cache:'no-store'});
+      clearTimeout(timer);
+      if(!r.ok)throw Error(`HTTP ${r.status}`);
+      activeAPI=base;
+      return await r.json();
+    }catch(e){
+      clearTimeout(timer);
+      lastError=e;
+    }
+  }
+  throw Error('Não foi possível conectar aos dados públicos da Binance.');
+}function rsi(c,p=14){let g=0,l=0;for(let i=c.length-p;i<c.length;i++){const d=c[i]-c[i-1];d>0?g+=d:l-=d}if(!l)return 100;const rs=(g/p)/(l/p);return 100-100/(1+rs)}async function analyze(pair){const k=await getJSON(`/klines?symbol=${pair.symbol}&interval=15m&limit=64`),c=k.map(x=>+x[4]),h=k.map(x=>+x[2]),lo=k.map(x=>+x[3]),v=k.map(x=>+x[5]),price=c.at(-1),high=Math.max(...h.slice(-24)),low=Math.min(...lo.slice(-24)),position=(price-low)/(high-low||1),R=rsi(c),avg=v.slice(-25,-1).reduce((a,b)=>a+b,0)/24,vr=v.at(-1)/(avg||1),mom4=(price/c.at(-5)-1)*100,mom1=(price/c.at(-2)-1)*100;let direction='AGUARDAR',confidence=45;const longOK=position<.22&&R<38&&mom1>0&&mom4>-1.2&&vr>=1.15,shortOK=position>.78&&R>62&&mom1<0&&mom4<1.2&&vr>=1.15;if(longOK){direction='LONG';confidence=Math.min(88,62+(1-position)*10+(vr-1)*7+(38-R)*.35)}else if(shortOK){direction='SHORT';confidence=Math.min(88,62+position*10+(vr-1)*7+(R-62)*.35)}else confidence=Math.min(65,40+vr*5+Math.abs(mom4)*2);return{...pair,price,position,R,vr,mom4,mom1,direction,confidence}}
 function renderSignal(s){const cls=s.direction==='LONG'?'long':s.direction==='SHORT'?'short':'wait',reason=s.direction==='LONG'?'Possível reação em região inferior, mas ainda exige confirmação do próximo candle.':s.direction==='SHORT'?'Possível rejeição em região superior, mas ainda exige confirmação do próximo candle.':'Não há confluência suficiente para uma entrada responsável neste momento.';signal.innerHTML=`<div class="signal-top"><div><small>BINANCE · 15 MIN</small><div class="pair-line"><h3>${s.symbol.replace('USDT','/USDT')}</h3><button class="chart-btn" type="button" onclick="openTradingView(s.symbol);event.stopPropagation()" title="Abrir gráfico de ${s.symbol} no TradingView">📈</button></div></div><div class="direction ${cls}">${s.direction}</div></div><div class="metrics"><div class="metric"><small>Preço</small><strong>$ ${money(s.price)}</strong></div><div class="metric"><small>24h</small><strong class="${s.change>=0?'up':'down'}">${pct(s.change)}</strong></div><div class="metric"><small>RSI</small><strong>${s.R.toFixed(1)}</strong></div><div class="metric"><small>Volume 15m</small><strong>${s.vr.toFixed(1)}x</strong></div><div class="metric"><small>Posição no range</small><strong>${(s.position*100).toFixed(0)}%</strong></div><div class="metric"><small>Força do setup</small><strong>${s.confidence.toFixed(0)}/100</strong></div></div><div class="reason">${reason}</div>`}
-function filtered(){const f=filter.value;if(f==='hot')return market.filter(x=>x.vr>=1.5);if(f==='long')return market.filter(x=>x.direction==='LONG');if(f==='short')return market.filter(x=>x.direction==='SHORT');return market}function renderTable(){const list=filtered();if(!list.length){table.innerHTML='<div class="loading">Nenhuma moeda corresponde a este filtro agora.</div>';return}const maxVr=Math.max(...list.map(x=>x.vr),1);table.innerHTML=`<table><thead><tr><th>Moeda</th><th>Preço</th><th>24h</th><th>Volume 24h</th><th>Volume 15m</th><th>Leitura</th><th>Força</th></tr></thead><tbody>${list.map(x=>`<tr data-i="${market.indexOf(x)}"><td class="coin">${x.symbol.replace(\'USDT\',\'\')}<button class="chart-btn small" type="button" onclick="openTradingView(x.symbol);event.stopPropagation()" title="Abrir gráfico de ${x.symbol} no TradingView">📈</button></td><td>$ ${money(x.price)}</td><td class="${x.change>=0?'up':'down'}">${pct(x.change)}</td><td>${compact(x.quoteVolume)} USDT</td><td><span class="volume-bar"><i style="width:${Math.min(100,x.vr/maxVr*100)}%"></i></span>${x.vr.toFixed(1)}x</td><td class="${x.direction==='LONG'?'long':x.direction==='SHORT'?'short':'wait'}"><b>${x.direction}</b></td><td class="score">${x.confidence.toFixed(0)}</td></tr>`).join('')}</tbody></table>`;table.querySelectorAll('tbody tr').forEach(row=>row.onclick=()=>renderSignal(market[+row.dataset.i]))}
-async function load(){refresh.disabled=true;refresh.textContent='Lendo...';statusText.textContent='Atualizando';dot.className='status-dot';try{const t=await getJSON(`${API}/ticker/24hr`),candidates=t.filter(x=>x.symbol.endsWith('USDT')&&!excluded.includes(x.symbol)&&+x.quoteVolume>8000000&&+x.lastPrice>0).map(x=>({symbol:x.symbol,price:+x.lastPrice,change:+x.priceChangePercent,quoteVolume:+x.quoteVolume})).sort((a,b)=>b.quoteVolume-a.quoteVolume).slice(0,50),results=[];for(const c of candidates){try{results.push(await analyze(c))}catch{}}market=results.sort((a,b)=>(b.vr*b.confidence)-(a.vr*a.confidence));count.textContent=market.length;updated.textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});statusText.textContent='Online';dot.className='status-dot online';renderTable();const preferred=market.find(x=>x.direction!=='AGUARDAR'&&x.confidence>=72);renderSignal(preferred||market[0])}catch(e){statusText.textContent='Indisponível';table.innerHTML=`<div class="error">${e.message}</div>`;signal.innerHTML='<div class="error">Não foi possível montar a leitura técnica.</div>'}finally{refresh.disabled=false;refresh.textContent='Atualizar'}}
+function filtered(){const f=filter.value;if(f==='hot')return market.filter(x=>x.vr>=1.5);if(f==='long')return market.filter(x=>x.direction==='LONG');if(f==='short')return market.filter(x=>x.direction==='SHORT');return market}function renderTable(){const list=filtered();if(!list.length){table.innerHTML='<div class="loading">Nenhuma moeda corresponde a este filtro agora.</div>';return}const maxVr=Math.max(...list.map(x=>x.vr),1);table.innerHTML=`<table><thead><tr><th>Moeda</th><th>Preço</th><th>24h</th><th>Volume 24h</th><th>Volume 15m</th><th>Leitura</th><th>Força</th></tr></thead><tbody>${list.map(x=>`<tr data-i="${market.indexOf(x)}"><td class="coin">${x.symbol.replace(\'USDT\',\'\')}<button class="chart-btn small" type="button" onclick="openTradingView(this.dataset.symbol);event.stopPropagation()" data-symbol="${x.symbol}" title="Abrir gráfico de ${x.symbol} no TradingView">📈</button></td><td>$ ${money(x.price)}</td><td class="${x.change>=0?'up':'down'}">${pct(x.change)}</td><td>${compact(x.quoteVolume)} USDT</td><td><span class="volume-bar"><i style="width:${Math.min(100,x.vr/maxVr*100)}%"></i></span>${x.vr.toFixed(1)}x</td><td class="${x.direction==='LONG'?'long':x.direction==='SHORT'?'short':'wait'}"><b>${x.direction}</b></td><td class="score">${x.confidence.toFixed(0)}</td></tr>`).join('')}</tbody></table>`;table.querySelectorAll('tbody tr').forEach(row=>row.onclick=()=>renderSignal(market[+row.dataset.i]))}
+async function load(){
+  refresh.disabled=true;
+  refresh.textContent='Lendo...';
+  statusText.textContent='Conectando';
+  dot.className='status-dot';
+  table.innerHTML='<div class="loading">Buscando pares da Binance...</div>';
+  try{
+    const t=await getJSON('/ticker/24hr');
+    const candidates=t.filter(x=>x.symbol.endsWith('USDT')&&!excluded.includes(x.symbol)&&+x.quoteVolume>8000000&&+x.lastPrice>0)
+      .map(x=>({symbol:x.symbol,price:+x.lastPrice,change:+x.priceChangePercent,quoteVolume:+x.quoteVolume}))
+      .sort((a,b)=>b.quoteVolume-a.quoteVolume).slice(0,50);
+
+    count.textContent=`0/${candidates.length}`;
+    const results=[];
+    const batchSize=8;
+
+    for(let i=0;i<candidates.length;i+=batchSize){
+      const done=Math.min(i+batchSize,candidates.length);
+      statusText.textContent=`Analisando ${done}/${candidates.length}`;
+      table.innerHTML=`<div class="loading">Analisando candles… ${done}/${candidates.length}</div>`;
+      const settled=await Promise.allSettled(candidates.slice(i,i+batchSize).map(analyze));
+      settled.forEach(item=>{if(item.status==='fulfilled')results.push(item.value)});
+      count.textContent=`${results.length}/${candidates.length}`;
+    }
+
+    if(!results.length)throw Error('A Binance respondeu, mas nenhum candle pôde ser analisado.');
+
+    market=results.sort((a,b)=>(b.vr*b.confidence)-(a.vr*a.confidence));
+    count.textContent=market.length;
+    updated.textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    statusText.textContent='Online';
+    dot.className='status-dot online';
+    renderTable();
+    const preferred=market.find(x=>x.direction!=='AGUARDAR'&&x.confidence>=72);
+    renderSignal(preferred||market[0]);
+  }catch(e){
+    statusText.textContent='Indisponível';
+    table.innerHTML=`<div class="error">${e.message}<br><small>Tente tocar em Atualizar novamente.</small></div>`;
+    signal.innerHTML='<div class="error">Sem dados para montar a leitura técnica.</div>';
+  }finally{
+    refresh.disabled=false;
+    refresh.textContent='Atualizar';
+  }
+}
+
 function openTradingView(symbol){
   const modal=document.getElementById('tvModal');
   const body=document.getElementById('tvBody');
