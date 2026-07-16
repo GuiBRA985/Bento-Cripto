@@ -1,9 +1,0 @@
-version: 1
-services:
-  - type: web
-    name: bento-cripto
-    env: static
-    buildCommand: echo "Deploying Bento Cripto"
-    staticPublishPath: .
-    autoDeploy: true
-    pullRequestPreviewsEnabled: false
