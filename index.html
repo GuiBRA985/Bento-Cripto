@@ -496,7 +496,7 @@
 
     <label for="ratioFilter">Volume mínimo</label>
     <select id="ratioFilter">
-      <option value="0">Qualquer anomalia</option>
+      <option value="0">Top 100 do momento</option>
       <option value="2">Acima de 2×</option>
       <option value="3">Acima de 3×</option>
       <option value="5">Acima de 5×</option>
@@ -1003,12 +1003,12 @@
 
       const candidates = tickers
         .filter(isAllowedPair)
-        .filter(item => +item.quoteVolume >= 5000000)
+        .filter(item => +item.quoteVolume >= 1000000)
         .sort((a, b) => +b.quoteVolume - +a.quoteVolume)
-        .slice(0, 180);
+        .slice(0, 280);
 
       const results = [];
-      const batchSize = 10;
+      const batchSize = 8;
 
       for (let index = 0; index < candidates.length; index += batchSize) {
         const batch = candidates.slice(index, index + batchSize);
@@ -1026,10 +1026,11 @@
             results.push(result.value);
           }
         });
+
+        await new Promise(resolve => setTimeout(resolve, 120));
       }
 
       state.items = results
-        .filter(item => item.volumeRatio >= 1.05)
         .sort((a, b) => b.volumeRatio - a.volumeRatio)
         .slice(0, 100);
 
