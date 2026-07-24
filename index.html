@@ -1,150 +1,1081 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bento Cripto — Radar de Altcoins</title>
-<style>
-:root{--bg:#07090d;--panel:#10151d;--panel2:#0c1118;--line:#26303c;--text:#f4f7fb;--muted:#94a0af;--green:#35e58b;--red:#ff6577;--gold:#ffd166;--blue:#66aaff}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at top,#122019 0,#07090d 38%);color:var(--text);font:14px/1.45 Arial,sans-serif;min-height:100vh}button,select{font:inherit}.wrap{width:min(1280px,94%);margin:auto}header{position:sticky;top:0;z-index:10;background:#07090def;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}nav{height:58px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-size:20px;font-weight:950;letter-spacing:.4px}.brand b{color:var(--green)}.nav-right{display:flex;align-items:center;gap:10px}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block}.status-dot.online{background:var(--green);box-shadow:0 0 14px #35e58b88}.btn{border:0;border-radius:10px;padding:9px 13px;background:var(--green);color:#04130b;font-weight:900;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}main{padding:16px 0 24px}.topbar{display:grid;grid-template-columns:1.25fr repeat(3,.45fr);gap:10px;margin-bottom:12px}.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:15px}.intro{padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:16px}.intro h1{font-size:22px;margin:0 0 3px}.intro p{margin:0;color:var(--muted)}.badge{flex:none;padding:6px 10px;border-radius:999px;border:1px solid #31533f;background:#102219;color:var(--green);font-size:11px;font-weight:900}.stat{padding:12px 14px}.stat small{display:block;color:var(--muted);margin-bottom:3px}.stat strong{font-size:17px}.dashboard{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(290px,.8fr);gap:12px}.radar{min-width:0;overflow:hidden}.panel-head{min-height:54px;padding:11px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title h2{font-size:17px;margin:0}.panel-title small{color:var(--muted)}.controls{display:flex;gap:7px;align-items:center}select{color:var(--text);background:#0b1017;border:1px solid var(--line);border-radius:9px;padding:8px 9px}.table-wrap{overflow:auto;max-height:calc(100vh - 208px)}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:10px 12px;border-bottom:1px solid #202936;text-align:left;white-space:nowrap}th{position:sticky;top:0;background:#0d1219;color:var(--muted);font-size:11px;z-index:2}tbody tr{cursor:pointer;transition:.15s}tbody tr:hover{background:#151d27}.coin{font-weight:950}.chart-btn{appearance:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center;margin-left:7px;width:29px;height:29px;border:1px solid var(--line);border-radius:8px;background:#101722;color:var(--text);text-decoration:none;vertical-align:middle;transition:.15s}.chart-btn:hover{border-color:var(--blue);background:#172131;transform:translateY(-1px)}.chart-btn.small{width:27px;height:27px;font-size:14px}.pair-line{display:flex;align-items:center;gap:5px}.muted{color:var(--muted)}.up,.long{color:var(--green)}.down,.short{color:var(--red)}.wait{color:var(--gold)}.volume-bar{width:70px;height:5px;background:#242d38;border-radius:999px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:6px}.volume-bar i{height:100%;display:block;background:var(--blue);border-radius:999px}.score{font-weight:900;color:var(--blue)}.side{display:grid;gap:12px;align-content:start}.signal{padding:15px}.signal-top{display:flex;justify-content:space-between;gap:10px;align-items:start}.signal small{color:var(--muted)}.signal h3{font-size:20px;margin:3px 0}.direction{font-size:32px;font-weight:950;line-height:1}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.metric{padding:9px 10px;border:1px solid var(--line);border-radius:11px;background:#0b1017}.metric small{display:block}.metric strong{font-size:14px}.reason{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#171b14;border:1px solid #353721;color:#d7d6a0}.warning{padding:12px 14px;color:#e9d77e;background:#1d190c;border:1px solid #4a4020;border-radius:15px}.legend{padding:13px 14px}.legend h3{font-size:14px;margin:0 0 8px}.legend p{margin:5px 0;color:var(--muted)}.loading,.error{padding:35px;text-align:center;color:var(--muted)}.error{color:#ff8c99}footer{padding:16px 0 24px;text-align:center;color:var(--muted);font-size:12px}@media(max-width:900px){.topbar{grid-template-columns:1fr 1fr 1fr}.intro{grid-column:1/-1}.dashboard{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.table-wrap{max-height:460px}}@media(max-width:620px){.wrap{width:96%}.topbar{grid-template-columns:1fr 1fr}.intro{align-items:flex-start}.intro h1{font-size:19px}.intro p{font-size:12px}.badge{display:none}.stat:nth-child(4){display:none}.dashboard{display:flex;flex-direction:column}.radar{order:1}.side{order:2;display:grid;grid-template-columns:1fr}.panel-head{align-items:flex-start}.controls select{max-width:118px}.table-wrap{max-height:56vh}table{min-width:650px}th,td{padding:9px 10px}}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bento Cripto — radar das 100 criptomoedas com volume fora do normal." />
+  <title>Bento Cripto — Volume fora do normal</title>
 
-.tv-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:#000b;backdrop-filter:blur(6px)}
-.tv-modal.open{display:flex}
-.tv-dialog{width:min(1180px,98vw);height:min(760px,92vh);display:flex;flex-direction:column;overflow:hidden;background:#0b1017;border:1px solid var(--line);border-radius:18px;box-shadow:0 25px 80px #000}
-.tv-head{height:54px;flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 15px;border-bottom:1px solid var(--line);background:#10161f}
-.tv-title{font-weight:950}.tv-title small{margin-left:8px;color:var(--muted);font-weight:400}
-.tv-close{width:35px;height:35px;border:1px solid var(--line);border-radius:10px;background:#171d27;color:var(--text);font-size:20px;cursor:pointer}
-.tv-close:hover{border-color:var(--red);color:var(--red)}
-.tv-body{position:relative;flex:1;min-height:0;background:#131722}
-.tv-loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted)}
-.tradingview-widget-container{position:relative;z-index:1;width:100%;height:100%}
-.tradingview-widget-container__widget{width:100%;height:100%}
-@media(max-width:620px){.tv-modal{padding:0}.tv-dialog{width:100vw;height:100vh;border:0;border-radius:0}.tv-title small{display:none}}
+  <style>
+    :root {
+      --bg: #06090d;
+      --panel: #0d141c;
+      --panel-2: #111b26;
+      --line: #213040;
+      --text: #f4f7fb;
+      --muted: #91a0b1;
+      --green: #32df8b;
+      --red: #ff667a;
+      --yellow: #ffd166;
+      --blue: #68a8ff;
+      --shadow: 0 22px 55px rgba(0,0,0,.28);
+    }
 
-</style></head>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(50,223,139,.10), transparent 28%),
+        radial-gradient(circle at 90% 12%, rgba(104,168,255,.10), transparent 25%),
+        var(--bg);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, select, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .wrap {
+      width: min(1380px, 95%);
+      margin-inline: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(6,9,13,.88);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    nav {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+
+    .brand b { color: var(--green); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--yellow);
+      display: inline-block;
+    }
+
+    .status-dot.online {
+      background: var(--green);
+      box-shadow: 0 0 15px rgba(50,223,139,.8);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 14px;
+      background: var(--green);
+      color: #04130b;
+      font-weight: 900;
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    main { padding: 18px 0 32px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, minmax(120px, .4fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(17,27,38,.95), rgba(10,16,23,.95));
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 6px;
+      font-size: clamp(22px, 3vw, 35px);
+      line-height: 1.08;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .hero-tag {
+      flex: none;
+      border: 1px solid rgba(50,223,139,.35);
+      background: rgba(50,223,139,.09);
+      color: var(--green);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .3px;
+    }
+
+    .stat {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat small {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .stat strong {
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .toolbar {
+      margin-bottom: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .toolbar label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    select, input {
+      border: 1px solid var(--line);
+      background: #091019;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 10px;
+      outline: none;
+    }
+
+    input { min-width: 180px; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 2.15fr) minmax(330px, .85fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .panel-head {
+      min-height: 60px;
+      padding: 12px 15px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .panel-head small { color: var(--muted); }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 285px);
+      min-height: 420px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 970px;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(33,48,64,.78);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: #0a1119;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .35px;
+    }
+
+    tbody tr {
+      transition: .15s;
+      cursor: pointer;
+    }
+
+    tbody tr:hover { background: rgba(104,168,255,.07); }
+
+    .rank { color: var(--muted); font-weight: 900; }
+    .coin { font-weight: 950; }
+    .muted { color: var(--muted); }
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    .flat { color: var(--yellow); }
+
+    .type {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-weight: 900;
+      font-size: 11px;
+    }
+
+    .type.up {
+      color: var(--green);
+      background: rgba(50,223,139,.09);
+      border: 1px solid rgba(50,223,139,.24);
+    }
+
+    .type.down {
+      color: var(--red);
+      background: rgba(255,102,122,.09);
+      border: 1px solid rgba(255,102,122,.24);
+    }
+
+    .type.flat {
+      color: var(--yellow);
+      background: rgba(255,209,102,.09);
+      border: 1px solid rgba(255,209,102,.24);
+    }
+
+    .ratio {
+      font-weight: 950;
+      color: var(--blue);
+    }
+
+    .bar {
+      width: 72px;
+      height: 6px;
+      background: #253141;
+      border-radius: 999px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 7px;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+    }
+
+    .side {
+      display: grid;
+      gap: 12px;
+      position: sticky;
+      top: 82px;
+    }
+
+    .detail { padding: 17px; }
+
+    .detail-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .detail h3 {
+      font-size: 24px;
+      margin: 3px 0 0;
+    }
+
+    .detail-label {
+      font-size: 29px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .metrics {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric {
+      padding: 10px;
+      border: 1px solid var(--line);
+      background: rgba(7,12,18,.72);
+      border-radius: 12px;
+    }
+
+    .metric small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .metric strong { font-size: 14px; }
+
+    .reading {
+      margin-top: 12px;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #0a121b;
+      color: #d8e0e8;
+    }
+
+    .chart-box {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      overflow: hidden;
+      background: #081019;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 230px;
+    }
+
+    .legend, .warning { padding: 14px; }
+
+    .legend h3, .warning h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .legend p, .warning p {
+      margin: 6px 0;
+      color: var(--muted);
+    }
+
+    .warning {
+      border-color: rgba(255,209,102,.25);
+      background: rgba(255,209,102,.05);
+    }
+
+    .loading, .error, .empty {
+      padding: 45px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .error { color: #ff9aa7; }
+
+    footer {
+      padding: 25px 0 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 1050px) {
+      .hero { grid-template-columns: 1fr 1fr 1fr; }
+      .hero-copy { grid-column: 1 / -1; }
+      .dashboard { grid-template-columns: 1fr; }
+      .side { position: static; grid-template-columns: 1.2fr .8fr; }
+      .detail { grid-row: span 2; }
+      .table-wrap { max-height: 560px; }
+    }
+
+    @media (max-width: 700px) {
+      .wrap { width: 96%; }
+      .nav-right #statusText { display: none; }
+      .hero { grid-template-columns: 1fr 1fr; }
+      .hero-copy { align-items: flex-start; }
+      .hero-tag { display: none; }
+      .stat:last-child { display: none; }
+      .side { grid-template-columns: 1fr; }
+      .detail { grid-row: auto; }
+      .toolbar { align-items: stretch; }
+      .toolbar > * { flex: 1 1 140px; }
+      input { min-width: 0; }
+      .table-wrap { max-height: 58vh; }
+    }
+  </style>
+</head>
+
 <body>
-<header><nav class="wrap"><div class="brand">BENTO <b>CRIPTO</b></div><div class="nav-right"><span class="status-dot" id="dot"></span><span class="muted" id="statusText">Conectando</span><button class="btn" id="refresh">Atualizar</button></div></nav></header>
+<header>
+  <nav class="wrap">
+    <div class="brand">BENTO <b>CRIPTO</b></div>
+
+    <div class="nav-right">
+      <span class="status-dot" id="dot"></span>
+      <span id="statusText">Conectando</span>
+      <button class="btn" id="refreshButton">Atualizar</button>
+    </div>
+  </nav>
+</header>
+
 <main class="wrap">
-<section class="topbar"><div class="card intro"><div><h1>Radar de volume acima da curva</h1><p>Até 50 altcoins líquidas da Binance, sem BTC e ETH. Leitura técnica de 15 minutos.</p></div><span class="badge">DADOS PÚBLICOS</span></div><div class="card stat"><small>Pares</small><strong id="count">—</strong></div><div class="card stat"><small>Timeframe</small><strong>15 min</strong></div><div class="card stat"><small>Atualizado</small><strong id="updated">—</strong></div></section>
-<section class="dashboard"><div class="card radar"><div class="panel-head"><div class="panel-title"><h2>Altcoins em movimento</h2><small>Clique em uma moeda para ver a leitura técnica</small></div><div class="controls"><select id="filter"><option value="all">Todos</option><option value="hot">Volume forte</option><option value="long">Possível LONG</option><option value="short">Possível SHORT</option></select></div></div><div class="table-wrap"><div id="table" class="loading">Carregando mercado...</div></div></div>
-<aside class="side"><div class="card signal" id="signal"><div class="loading">Selecione uma moeda</div></div><div class="warning"><b>Leitura experimental.</b><br>Não use como ordem automática. Confirme tendência, candle e risco antes de operar.</div><div class="card legend"><h3>Critério mais conservador</h3><p><b class="long">LONG:</b> fundo relativo + RSI baixo + recuperação + volume.</p><p><b class="short">SHORT:</b> topo relativo + RSI alto + perda de força + volume.</p><p><b class="wait">AGUARDAR:</b> sem confluência suficiente.</p></div></aside></section></main>
-
-<div class="tv-modal" id="tvModal" aria-hidden="true">
-  <div class="tv-dialog" role="dialog" aria-modal="true" aria-labelledby="tvTitle">
-    <div class="tv-head">
-      <div class="tv-title" id="tvTitle">TradingView <small>BINANCE · 15 minutos</small></div>
-      <button class="tv-close" type="button" onclick="closeTradingView()" aria-label="Fechar gráfico">×</button>
+  <section class="hero">
+    <div class="card hero-copy">
+      <div>
+        <h1>100 criptomoedas com volume fora do normal.</h1>
+        <p>
+          Movimentos de alta, queda ou disputa apresentados de forma objetiva.
+          Observe os dados, compare os últimos topos e fundos e tire suas próprias conclusões.
+        </p>
+      </div>
+      <span class="hero-tag">SEM SINAL DE COMPRA OU VENDA</span>
     </div>
-    <div class="tv-body" id="tvBody">
-      <div class="tv-loading">Carregando gráfico...</div>
-    </div>
-  </div>
-</div>
 
-<footer>Criptoativos. Questione o sistema, não a lei. · Bento.host</footer>
+    <div class="card stat">
+      <small>Moedas exibidas</small>
+      <strong id="coinCount">—</strong>
+    </div>
+
+    <div class="card stat">
+      <small>Período analisado</small>
+      <strong id="periodLabel">1 hora</strong>
+    </div>
+
+    <div class="card stat">
+      <small>Atualizado</small>
+      <strong id="updatedAt">—</strong>
+    </div>
+  </section>
+
+  <section class="card toolbar">
+    <label for="directionFilter">Movimento</label>
+    <select id="directionFilter">
+      <option value="all">Todos</option>
+      <option value="up">Alta</option>
+      <option value="down">Queda</option>
+      <option value="flat">Disputa</option>
+    </select>
+
+    <label for="ratioFilter">Volume mínimo</label>
+    <select id="ratioFilter">
+      <option value="0">Qualquer anomalia</option>
+      <option value="2">Acima de 2×</option>
+      <option value="3">Acima de 3×</option>
+      <option value="5">Acima de 5×</option>
+      <option value="10">Acima de 10×</option>
+    </select>
+
+    <label for="intervalFilter">Período</label>
+    <select id="intervalFilter">
+      <option value="15m">15 minutos</option>
+      <option value="1h" selected>1 hora</option>
+      <option value="4h">4 horas</option>
+      <option value="1d">Diário</option>
+    </select>
+
+    <label for="searchInput">Buscar</label>
+    <input id="searchInput" type="search" placeholder="Ex.: SOL, XRP, FET..." />
+  </section>
+
+  <section class="dashboard">
+    <div class="card">
+      <div class="panel-head">
+        <div>
+          <h2>Radar de anomalias</h2>
+          <small>Ranking pelo volume atual comparado à própria média recente.</small>
+        </div>
+        <small id="resultCount">—</small>
+      </div>
+
+      <div class="table-wrap">
+        <div class="loading" id="tableContainer">Buscando dados públicos da Binance...</div>
+      </div>
+    </div>
+
+    <aside class="side">
+      <div class="card detail" id="detailCard">
+        <div class="loading">Selecione uma moeda para analisar.</div>
+      </div>
+
+      <div class="card legend">
+        <h3>Como o Bento classifica</h3>
+        <p><b class="up">Alta:</b> preço sobe enquanto o volume aumenta.</p>
+        <p><b class="down">Queda:</b> preço cai enquanto o volume aumenta.</p>
+        <p><b class="flat">Disputa:</b> volume cresce, mas o preço permanece próximo da estabilidade.</p>
+      </div>
+
+      <div class="card warning">
+        <h3>Aviso importante</h3>
+        <p>
+          O Bento Cripto não oferece sinais, consultoria financeira, recomendação de compra ou venda,
+          alvo, stop ou promessa de resultado. Os dados são exclusivamente informativos.
+        </p>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<footer class="wrap">
+  Onde o mercado faz barulho. Você decide o que significa. · Bento.host
+</footer>
+
 <script>
-const APIS=['https://api.binance.com/api/v3','https://data-api.binance.vision/api/v3'];let activeAPI=APIS[0],excluded=['BTCUSDT','ETHUSDT','USDCUSDT','FDUSDUSDT','TUSDUSDT','DAIUSDT','EURUSDT','BRLUSDT'];let market=[];const money=n=>Number(n).toLocaleString('pt-BR',{maximumFractionDigits:8}),compact=n=>Intl.NumberFormat('pt-BR',{notation:'compact',maximumFractionDigits:1}).format(n),pct=n=>`${n>=0?'+':''}${n.toFixed(2)}%`;async function getJSON(path){
-  let lastError;
-  for(const base of [activeAPI,...APIS.filter(x=>x!==activeAPI)]){
-    const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(),10000);
-    try{
-      const r=await fetch(`${base}${path}`,{signal:controller.signal,cache:'no-store'});
-      clearTimeout(timer);
-      if(!r.ok)throw Error(`HTTP ${r.status}`);
-      activeAPI=base;
-      return await r.json();
-    }catch(e){
-      clearTimeout(timer);
-      lastError=e;
+  const API_BASES = [
+    "https://api.binance.com/api/v3",
+    "https://data-api.binance.vision/api/v3"
+  ];
+
+  const STABLE_OR_EXCLUDED = [
+    "BTC", "ETH", "USDC", "FDUSD", "TUSD", "DAI", "EUR", "BRL", "USDP",
+    "USDS", "BUSD", "WBTC", "WETH", "PAXG", "XUSD", "USD1", "AEUR"
+  ];
+
+  const state = {
+    apiBase: API_BASES[0],
+    interval: "1h",
+    items: [],
+    selected: null
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  const compact = (number) =>
+    new Intl.NumberFormat("pt-BR", {
+      notation: "compact",
+      maximumFractionDigits: 1
+    }).format(number);
+
+  const priceFormat = (number) =>
+    Number(number).toLocaleString("pt-BR", {
+      minimumFractionDigits: number >= 100 ? 2 : 0,
+      maximumFractionDigits: number >= 1 ? 4 : 8
+    });
+
+  const pct = (number) =>
+    `${number >= 0 ? "+" : ""}${Number(number).toFixed(2)}%`;
+
+  const intervalNames = {
+    "15m": "15 minutos",
+    "1h": "1 hora",
+    "4h": "4 horas",
+    "1d": "1 dia"
+  };
+
+  async function api(path) {
+    let lastError;
+
+    for (const base of [state.apiBase, ...API_BASES.filter(item => item !== state.apiBase)]) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+
+      try {
+        const response = await fetch(`${base}${path}`, {
+          signal: controller.signal,
+          cache: "no-store"
+        });
+
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        state.apiBase = base;
+        return await response.json();
+      } catch (error) {
+        clearTimeout(timeout);
+        lastError = error;
+      }
+    }
+
+    throw new Error("Não foi possível acessar os dados públicos da Binance.");
+  }
+
+  function isAllowedPair(ticker) {
+    if (!ticker.symbol.endsWith("USDT")) return false;
+    if (+ticker.lastPrice <= 0 || +ticker.quoteVolume <= 0) return false;
+
+    const baseAsset = ticker.symbol.slice(0, -4);
+
+    if (STABLE_OR_EXCLUDED.includes(baseAsset)) return false;
+    if (baseAsset.startsWith("LD")) return false;
+    if (baseAsset.endsWith("UP") || baseAsset.endsWith("DOWN")) return false;
+    if (baseAsset.endsWith("BULL") || baseAsset.endsWith("BEAR")) return false;
+
+    return true;
+  }
+
+  function average(values) {
+    if (!values.length) return 0;
+    return values.reduce((sum, value) => sum + value, 0) / values.length;
+  }
+
+  function findPivots(candles, radius = 3) {
+    const highs = [];
+    const lows = [];
+
+    for (let i = radius; i < candles.length - radius; i++) {
+      const currentHigh = candles[i].high;
+      const currentLow = candles[i].low;
+
+      let isHigh = true;
+      let isLow = true;
+
+      for (let offset = 1; offset <= radius; offset++) {
+        if (
+          currentHigh <= candles[i - offset].high ||
+          currentHigh <= candles[i + offset].high
+        ) {
+          isHigh = false;
+        }
+
+        if (
+          currentLow >= candles[i - offset].low ||
+          currentLow >= candles[i + offset].low
+        ) {
+          isLow = false;
+        }
+      }
+
+      if (isHigh) highs.push({ index: i, price: currentHigh });
+      if (isLow) lows.push({ index: i, price: currentLow });
+    }
+
+    return {
+      highs: highs.slice(-2),
+      lows: lows.slice(-2)
+    };
+  }
+
+  function classify(change) {
+    if (change > 0.45) return "up";
+    if (change < -0.45) return "down";
+    return "flat";
+  }
+
+  async function analyzeTicker(ticker) {
+    const raw = await api(
+      `/klines?symbol=${ticker.symbol}&interval=${state.interval}&limit=80`
+    );
+
+    const candles = raw.map(item => ({
+      openTime: item[0],
+      open: +item[1],
+      high: +item[2],
+      low: +item[3],
+      close: +item[4],
+      volume: +item[5],
+      quoteVolume: +item[7]
+    }));
+
+    const completed = candles.slice(0, -1);
+    const current = completed.at(-1);
+    const previous = completed.at(-2);
+
+    const baseline = completed.slice(-25, -1);
+    const avgQuoteVolume = average(baseline.map(item => item.quoteVolume));
+    const volumeRatio = current.quoteVolume / (avgQuoteVolume || 1);
+    const intervalChange = ((current.close / previous.close) - 1) * 100;
+    const pivots = findPivots(completed.slice(-60));
+
+    const lastTop = pivots.highs.at(-1)?.price ?? Math.max(...completed.slice(-30).map(item => item.high));
+    const previousTop = pivots.highs.at(-2)?.price ?? null;
+    const lastBottom = pivots.lows.at(-1)?.price ?? Math.min(...completed.slice(-30).map(item => item.low));
+    const previousBottom = pivots.lows.at(-2)?.price ?? null;
+
+    return {
+      symbol: ticker.symbol,
+      asset: ticker.symbol.replace("USDT", ""),
+      price: current.close,
+      change24h: +ticker.priceChangePercent,
+      intervalChange,
+      quoteVolume24h: +ticker.quoteVolume,
+      avgQuoteVolume,
+      currentQuoteVolume: current.quoteVolume,
+      volumeRatio,
+      direction: classify(intervalChange),
+      lastTop,
+      previousTop,
+      lastBottom,
+      previousBottom,
+      distanceTop: ((lastTop / current.close) - 1) * 100,
+      distanceBottom: ((current.close / lastBottom) - 1) * 100,
+      candles: completed.slice(-60)
+    };
+  }
+
+  function renderTable() {
+    const direction = $("directionFilter").value;
+    const minRatio = +$("ratioFilter").value;
+    const query = $("searchInput").value.trim().toUpperCase();
+
+    const filtered = state.items.filter(item => {
+      const directionOk = direction === "all" || item.direction === direction;
+      const ratioOk = item.volumeRatio >= minRatio;
+      const searchOk = !query || item.asset.includes(query);
+      return directionOk && ratioOk && searchOk;
+    });
+
+    $("resultCount").textContent = `${filtered.length} resultado${filtered.length === 1 ? "" : "s"}`;
+
+    if (!filtered.length) {
+      $("tableContainer").innerHTML =
+        '<div class="empty">Nenhuma moeda corresponde aos filtros atuais.</div>';
+      return;
+    }
+
+    const maxRatio = Math.max(...filtered.map(item => item.volumeRatio), 1);
+
+    $("tableContainer").innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Moeda</th>
+            <th>Preço</th>
+            <th>${intervalNames[state.interval]}</th>
+            <th>24h</th>
+            <th>Volume atual</th>
+            <th>Média recente</th>
+            <th>Anomalia</th>
+            <th>Leitura</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${filtered.map((item, index) => `
+            <tr data-symbol="${item.symbol}">
+              <td class="rank">${index + 1}</td>
+              <td class="coin">${item.asset}<span class="muted">/USDT</span></td>
+              <td>$ ${priceFormat(item.price)}</td>
+              <td class="${item.intervalChange > 0 ? "up" : item.intervalChange < 0 ? "down" : "flat"}">
+                ${pct(item.intervalChange)}
+              </td>
+              <td class="${item.change24h > 0 ? "up" : item.change24h < 0 ? "down" : "flat"}">
+                ${pct(item.change24h)}
+              </td>
+              <td>${compact(item.currentQuoteVolume)} USDT</td>
+              <td>${compact(item.avgQuoteVolume)} USDT</td>
+              <td>
+                <span class="bar"><i style="width:${Math.min(100, item.volumeRatio / maxRatio * 100)}%"></i></span>
+                <span class="ratio">${item.volumeRatio.toFixed(2)}×</span>
+              </td>
+              <td>
+                <span class="type ${item.direction}">
+                  ${item.direction === "up" ? "▲ Alta" : item.direction === "down" ? "▼ Queda" : "◆ Disputa"}
+                </span>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+
+    document.querySelectorAll("tbody tr").forEach(row => {
+      row.addEventListener("click", () => {
+        const selected = state.items.find(item => item.symbol === row.dataset.symbol);
+        renderDetail(selected);
+      });
+    });
+  }
+
+  function renderDetail(item) {
+    if (!item) return;
+    state.selected = item;
+
+    const directionText =
+      item.direction === "up" ? "ALTA" :
+      item.direction === "down" ? "QUEDA" :
+      "DISPUTA";
+
+    const reading =
+      `O ativo apresenta volume ${item.volumeRatio.toFixed(2)} vezes superior à média recente ` +
+      `do período de ${intervalNames[state.interval]}. O preço atual está ` +
+      `${Math.abs(item.distanceTop).toFixed(2)}% abaixo do último topo identificado e ` +
+      `${Math.abs(item.distanceBottom).toFixed(2)}% acima do último fundo identificado.`;
+
+    $("detailCard").innerHTML = `
+      <div class="detail-top">
+        <div>
+          <small class="muted">BINANCE · ${intervalNames[state.interval].toUpperCase()}</small>
+          <h3>${item.asset}/USDT</h3>
+        </div>
+
+        <div class="detail-label ${item.direction}">
+          ${directionText}
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <small>Preço atual</small>
+          <strong>$ ${priceFormat(item.price)}</strong>
+        </div>
+
+        <div class="metric">
+          <small>Volume anormal</small>
+          <strong class="ratio">${item.volumeRatio.toFixed(2)}×</strong>
+        </div>
+
+        <div class="metric">
+          <small>Último topo</small>
+          <strong>$ ${priceFormat(item.lastTop)}</strong>
+        </div>
+
+        <div class="metric">
+          <small>Último fundo</small>
+          <strong>$ ${priceFormat(item.lastBottom)}</strong>
+        </div>
+
+        <div class="metric">
+          <small>Distância do topo</small>
+          <strong>${Math.abs(item.distanceTop).toFixed(2)}%</strong>
+        </div>
+
+        <div class="metric">
+          <small>Distância do fundo</small>
+          <strong>${Math.abs(item.distanceBottom).toFixed(2)}%</strong>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="priceChart" width="680" height="300"></canvas>
+      </div>
+
+      <div class="reading">${reading}</div>
+    `;
+
+    drawChart(item);
+  }
+
+  function drawChart(item) {
+    const canvas = $("priceChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth = canvas.clientWidth;
+    const cssHeight = 230;
+
+    canvas.width = cssWidth * dpr;
+    canvas.height = cssHeight * dpr;
+    ctx.scale(dpr, dpr);
+
+    const candles = item.candles;
+    const padding = { top: 18, right: 50, bottom: 34, left: 10 };
+    const width = cssWidth - padding.left - padding.right;
+    const height = cssHeight - padding.top - padding.bottom;
+
+    const prices = candles.flatMap(candle => [candle.high, candle.low]);
+    prices.push(item.lastTop, item.lastBottom);
+
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    const priceRange = maxPrice - minPrice || 1;
+
+    const maxVolume = Math.max(...candles.map(candle => candle.quoteVolume), 1);
+    const candleWidth = Math.max(2, width / candles.length * .62);
+    const step = width / candles.length;
+
+    const y = price =>
+      padding.top + (maxPrice - price) / priceRange * (height * .72);
+
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+    ctx.strokeStyle = "rgba(145,160,177,.12)";
+    ctx.lineWidth = 1;
+
+    for (let grid = 0; grid < 4; grid++) {
+      const gy = padding.top + (height * .72 / 3) * grid;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, gy);
+      ctx.lineTo(cssWidth - padding.right, gy);
+      ctx.stroke();
+    }
+
+    candles.forEach((candle, index) => {
+      const x = padding.left + index * step + step / 2;
+      const isUp = candle.close >= candle.open;
+      const color = isUp ? "#32df8b" : "#ff667a";
+
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y(candle.high));
+      ctx.lineTo(x, y(candle.low));
+      ctx.stroke();
+
+      const bodyTop = y(Math.max(candle.open, candle.close));
+      const bodyBottom = y(Math.min(candle.open, candle.close));
+      const bodyHeight = Math.max(1.4, bodyBottom - bodyTop);
+
+      ctx.fillRect(x - candleWidth / 2, bodyTop, candleWidth, bodyHeight);
+
+      const volumeHeight = candle.quoteVolume / maxVolume * (height * .19);
+      ctx.globalAlpha = .38;
+      ctx.fillRect(
+        x - candleWidth / 2,
+        cssHeight - padding.bottom - volumeHeight,
+        candleWidth,
+        volumeHeight
+      );
+      ctx.globalAlpha = 1;
+    });
+
+    const drawLevel = (price, color, label) => {
+      const levelY = y(price);
+      ctx.save();
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+
+      ctx.beginPath();
+      ctx.moveTo(padding.left, levelY);
+      ctx.lineTo(cssWidth - padding.right, levelY);
+      ctx.stroke();
+
+      ctx.setLineDash([]);
+      ctx.fillStyle = color;
+      ctx.font = "11px sans-serif";
+      ctx.fillText(label, cssWidth - padding.right + 5, levelY + 4);
+      ctx.restore();
+    };
+
+    drawLevel(item.lastTop, "#68a8ff", "Topo");
+    drawLevel(item.lastBottom, "#ffd166", "Fundo");
+
+    ctx.fillStyle = "#91a0b1";
+    ctx.font = "11px sans-serif";
+    ctx.fillText("Candles", padding.left, cssHeight - 10);
+    ctx.fillText("Volume", padding.left + 55, cssHeight - 10);
+  }
+
+  async function loadMarket() {
+    $("refreshButton").disabled = true;
+    $("refreshButton").textContent = "Lendo...";
+    $("statusText").textContent = "Buscando mercado";
+    $("dot").className = "status-dot";
+    $("tableContainer").innerHTML =
+      '<div class="loading">Buscando pares líquidos da Binance...</div>';
+
+    try {
+      const tickers = await api("/ticker/24hr");
+
+      const candidates = tickers
+        .filter(isAllowedPair)
+        .filter(item => +item.quoteVolume >= 5000000)
+        .sort((a, b) => +b.quoteVolume - +a.quoteVolume)
+        .slice(0, 180);
+
+      const results = [];
+      const batchSize = 10;
+
+      for (let index = 0; index < candidates.length; index += batchSize) {
+        const batch = candidates.slice(index, index + batchSize);
+
+        $("statusText").textContent =
+          `Analisando ${Math.min(index + batch.length, candidates.length)}/${candidates.length}`;
+
+        $("tableContainer").innerHTML =
+          `<div class="loading">Comparando volume atual com a média recente… ${Math.min(index + batch.length, candidates.length)}/${candidates.length}</div>`;
+
+        const settled = await Promise.allSettled(batch.map(analyzeTicker));
+
+        settled.forEach(result => {
+          if (result.status === "fulfilled" && Number.isFinite(result.value.volumeRatio)) {
+            results.push(result.value);
+          }
+        });
+      }
+
+      state.items = results
+        .filter(item => item.volumeRatio >= 1.05)
+        .sort((a, b) => b.volumeRatio - a.volumeRatio)
+        .slice(0, 100);
+
+      $("coinCount").textContent = state.items.length;
+      $("periodLabel").textContent = intervalNames[state.interval];
+      $("updatedAt").textContent = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      $("statusText").textContent = "Online";
+      $("dot").className = "status-dot online";
+
+      renderTable();
+      renderDetail(state.items[0]);
+    } catch (error) {
+      console.error(error);
+
+      $("statusText").textContent = "Indisponível";
+      $("tableContainer").innerHTML =
+        `<div class="error">${error.message}<br><small>Tente atualizar novamente.</small></div>`;
+
+      $("detailCard").innerHTML =
+        '<div class="error">Não foi possível montar a análise.</div>';
+    } finally {
+      $("refreshButton").disabled = false;
+      $("refreshButton").textContent = "Atualizar";
     }
   }
-  throw Error('Não foi possível conectar aos dados públicos da Binance.');
-}function rsi(c,p=14){let g=0,l=0;for(let i=c.length-p;i<c.length;i++){const d=c[i]-c[i-1];d>0?g+=d:l-=d}if(!l)return 100;const rs=(g/p)/(l/p);return 100-100/(1+rs)}async function analyze(pair){const k=await getJSON(`/klines?symbol=${pair.symbol}&interval=15m&limit=64`),c=k.map(x=>+x[4]),h=k.map(x=>+x[2]),lo=k.map(x=>+x[3]),v=k.map(x=>+x[5]),price=c.at(-1),high=Math.max(...h.slice(-24)),low=Math.min(...lo.slice(-24)),position=(price-low)/(high-low||1),R=rsi(c),avg=v.slice(-25,-1).reduce((a,b)=>a+b,0)/24,vr=v.at(-1)/(avg||1),mom4=(price/c.at(-5)-1)*100,mom1=(price/c.at(-2)-1)*100;let direction='AGUARDAR',confidence=45;const longOK=position<.22&&R<38&&mom1>0&&mom4>-1.2&&vr>=1.15,shortOK=position>.78&&R>62&&mom1<0&&mom4<1.2&&vr>=1.15;if(longOK){direction='LONG';confidence=Math.min(88,62+(1-position)*10+(vr-1)*7+(38-R)*.35)}else if(shortOK){direction='SHORT';confidence=Math.min(88,62+position*10+(vr-1)*7+(R-62)*.35)}else confidence=Math.min(65,40+vr*5+Math.abs(mom4)*2);return{...pair,price,position,R,vr,mom4,mom1,direction,confidence}}
-function renderSignal(s){const cls=s.direction==='LONG'?'long':s.direction==='SHORT'?'short':'wait',reason=s.direction==='LONG'?'Possível reação em região inferior, mas ainda exige confirmação do próximo candle.':s.direction==='SHORT'?'Possível rejeição em região superior, mas ainda exige confirmação do próximo candle.':'Não há confluência suficiente para uma entrada responsável neste momento.';signal.innerHTML=`<div class="signal-top"><div><small>BINANCE · 15 MIN</small><div class="pair-line"><h3>${s.symbol.replace('USDT','/USDT')}</h3><button class="chart-btn" type="button" onclick="openTradingView(s.symbol);event.stopPropagation()" title="Abrir gráfico de ${s.symbol} no TradingView">📈</button></div></div><div class="direction ${cls}">${s.direction}</div></div><div class="metrics"><div class="metric"><small>Preço</small><strong>$ ${money(s.price)}</strong></div><div class="metric"><small>24h</small><strong class="${s.change>=0?'up':'down'}">${pct(s.change)}</strong></div><div class="metric"><small>RSI</small><strong>${s.R.toFixed(1)}</strong></div><div class="metric"><small>Volume 15m</small><strong>${s.vr.toFixed(1)}x</strong></div><div class="metric"><small>Posição no range</small><strong>${(s.position*100).toFixed(0)}%</strong></div><div class="metric"><small>Força do setup</small><strong>${s.confidence.toFixed(0)}/100</strong></div></div><div class="reason">${reason}</div>`}
-function filtered(){const f=filter.value;if(f==='hot')return market.filter(x=>x.vr>=1.5);if(f==='long')return market.filter(x=>x.direction==='LONG');if(f==='short')return market.filter(x=>x.direction==='SHORT');return market}function renderTable(){const list=filtered();if(!list.length){table.innerHTML='<div class="loading">Nenhuma moeda corresponde a este filtro agora.</div>';return}const maxVr=Math.max(...list.map(x=>x.vr),1);table.innerHTML=`<table><thead><tr><th>Moeda</th><th>Preço</th><th>24h</th><th>Volume 24h</th><th>Volume 15m</th><th>Leitura</th><th>Força</th></tr></thead><tbody>${list.map(x=>`<tr data-i="${market.indexOf(x)}"><td class="coin">${x.symbol.replace(\'USDT\',\'\')}<button class="chart-btn small" type="button" onclick="openTradingView(this.dataset.symbol);event.stopPropagation()" data-symbol="${x.symbol}" title="Abrir gráfico de ${x.symbol} no TradingView">📈</button></td><td>$ ${money(x.price)}</td><td class="${x.change>=0?'up':'down'}">${pct(x.change)}</td><td>${compact(x.quoteVolume)} USDT</td><td><span class="volume-bar"><i style="width:${Math.min(100,x.vr/maxVr*100)}%"></i></span>${x.vr.toFixed(1)}x</td><td class="${x.direction==='LONG'?'long':x.direction==='SHORT'?'short':'wait'}"><b>${x.direction}</b></td><td class="score">${x.confidence.toFixed(0)}</td></tr>`).join('')}</tbody></table>`;table.querySelectorAll('tbody tr').forEach(row=>row.onclick=()=>renderSignal(market[+row.dataset.i]))}
-async function load(){
-  refresh.disabled=true;
-  refresh.textContent='Lendo...';
-  statusText.textContent='Conectando';
-  dot.className='status-dot';
-  table.innerHTML='<div class="loading">Buscando pares da Binance...</div>';
-  try{
-    const t=await getJSON('/ticker/24hr');
-    const candidates=t.filter(x=>x.symbol.endsWith('USDT')&&!excluded.includes(x.symbol)&&+x.quoteVolume>8000000&&+x.lastPrice>0)
-      .map(x=>({symbol:x.symbol,price:+x.lastPrice,change:+x.priceChangePercent,quoteVolume:+x.quoteVolume}))
-      .sort((a,b)=>b.quoteVolume-a.quoteVolume).slice(0,50);
 
-    count.textContent=`0/${candidates.length}`;
-    const results=[];
-    const batchSize=8;
+  $("refreshButton").addEventListener("click", loadMarket);
 
-    for(let i=0;i<candidates.length;i+=batchSize){
-      const done=Math.min(i+batchSize,candidates.length);
-      statusText.textContent=`Analisando ${done}/${candidates.length}`;
-      table.innerHTML=`<div class="loading">Analisando candles… ${done}/${candidates.length}</div>`;
-      const settled=await Promise.allSettled(candidates.slice(i,i+batchSize).map(analyze));
-      settled.forEach(item=>{if(item.status==='fulfilled')results.push(item.value)});
-      count.textContent=`${results.length}/${candidates.length}`;
-    }
+  $("directionFilter").addEventListener("change", renderTable);
+  $("ratioFilter").addEventListener("change", renderTable);
+  $("searchInput").addEventListener("input", renderTable);
 
-    if(!results.length)throw Error('A Binance respondeu, mas nenhum candle pôde ser analisado.');
-
-    market=results.sort((a,b)=>(b.vr*b.confidence)-(a.vr*a.confidence));
-    count.textContent=market.length;
-    updated.textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    statusText.textContent='Online';
-    dot.className='status-dot online';
-    renderTable();
-    const preferred=market.find(x=>x.direction!=='AGUARDAR'&&x.confidence>=72);
-    renderSignal(preferred||market[0]);
-  }catch(e){
-    statusText.textContent='Indisponível';
-    table.innerHTML=`<div class="error">${e.message}<br><small>Tente tocar em Atualizar novamente.</small></div>`;
-    signal.innerHTML='<div class="error">Sem dados para montar a leitura técnica.</div>';
-  }finally{
-    refresh.disabled=false;
-    refresh.textContent='Atualizar';
-  }
-}
-
-function openTradingView(symbol){
-  const modal=document.getElementById('tvModal');
-  const body=document.getElementById('tvBody');
-  document.getElementById('tvTitle').innerHTML=`${symbol.replace('USDT','/USDT')} <small>TradingView · BINANCE · 15 minutos</small>`;
-  body.innerHTML='<div class="tv-loading">Carregando gráfico...</div>';
-  const container=document.createElement('div');
-  container.className='tradingview-widget-container';
-  container.innerHTML='<div class="tradingview-widget-container__widget"></div>';
-  body.appendChild(container);
-  const script=document.createElement('script');
-  script.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-  script.async=true;
-  script.type='text/javascript';
-  script.text=JSON.stringify({
-    autosize:true,
-    symbol:`BINANCE:${symbol}`,
-    interval:'15',
-    timezone:'America/Campo_Grande',
-    theme:'dark',
-    style:'1',
-    locale:'br',
-    allow_symbol_change:true,
-    calendar:false,
-    support_host:'https://www.tradingview.com'
+  $("intervalFilter").addEventListener("change", event => {
+    state.interval = event.target.value;
+    loadMarket();
   });
-  container.appendChild(script);
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
-}
-function closeTradingView(){
-  const modal=document.getElementById('tvModal');
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden','true');
-  document.getElementById('tvBody').innerHTML='';
-  document.body.style.overflow='';
-}
-document.getElementById('tvModal').addEventListener('click',e=>{if(e.target.id==='tvModal') closeTradingView();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeTradingView();});
 
-refresh.onclick=load;filter.onchange=renderTable;load();
-</script></body></html>
+  window.addEventListener("resize", () => {
+    if (state.selected) drawChart(state.selected);
+  });
+
+  loadMarket();
+</script>
+</body>
+</html>
